@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Growth Partner Externo para el Club GAJOG</title>
+    <!-- Carga de Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
+    <!-- Configuración para la tipografía Inter (moderna y legible) y colores --><script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'gajog-blue': '#1e90ff', // Inspirado en el azul de los acentos de la imagen
+                        'gajog-orange': '#ffa500', // Inspirado en el naranja de los acentos de la imagen
+                        'gajog-bg-dark': '#4b2a8f', // Púrpura oscuro para el fondo parallax
+                        'gajog-bg-light': '#f8f5ff', // Lavanda muy claro para el fondo de las tarjetas
+                        'gajog-accent': '#673ab7', // Un tono intermedio púrpura para el texto destacado
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Aplicación del fondo fijo para el efecto Parallax */
+        body {
+            /* Degradado oscuro para el fondo que se mantiene fijo */
+            background: linear-gradient(135deg, var(--tw-colors-gajog-bg-dark) 0%, #7e57c2 100%);
+            background-attachment: fixed;
+            font-family: 'Inter', sans-serif;
+        }
+        /* Estilo para cada diapositiva */
+        .slide {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            scroll-snap-align: start; /* Ayuda a que la navegación se sienta más fluida y por diapositivas */
+        }
+        /* Contenedor de la diapositiva para el efecto de "tarjeta flotante" */
+        .slide-content {
+            background-color: rgba(255, 255, 255, 0.95); /* Tarjeta casi blanca */
+            border-radius: 1.5rem; /* Bordes redondeados */
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            max-width: 900px;
+            width: 100%;
+            min-height: 80%;
+            padding: 3rem;
+            position: relative;
+            /* Estilos iniciales para la animación */
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        /* Clase para aplicar la animación una vez visible */
+        .slide-content.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Estilo específico para la diapositiva de título */
+        .title-slide {
+            background-color: var(--tw-colors-gajog-bg-light);
+            box-shadow: none;
+            text-align: center;
+        }
+
+        /* Contenedor para el scroll snap (opcional pero recomendado para presentaciones) */
+        .scroll-container {
+            scroll-snap-type: y mandatory;
+        }
+
+        /* Lista de puntos clave con icono SVG estilizado */
+        .key-list-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+        .key-list-icon {
+            flex-shrink: 0;
+            width: 1.25rem;
+            height: 1.25rem;
+            margin-right: 0.75rem;
+            color: var(--tw-colors-gajog-blue);
+        }
+        .proposal-list .key-list-icon {
+            color: var(--tw-colors-gajog-orange);
+        }
+    </style>
+</head>
+<body class="scroll-container">
+
+    <!-- JavaScript para la animación al hacer scroll y la barra de navegación --><script>
+        // Función para el desplazamiento suave (scroll)
+        function smoothScrollTo(id) {
+            document.getElementById(id).scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.2 // Trigger when 20% of the slide is visible
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    } else {
+                        // Opcional: remover la clase para re-animar al subir el scroll
+                        // entry.target.classList.remove('is-visible');
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.slide-content').forEach(content => {
+                observer.observe(content);
+            });
+            
+            // Lógica para mostrar la barra de navegación pegajosa
+            const stickyNav = document.getElementById('sticky-tabs');
+            const visibilityThreshold = window.innerHeight * 2; // Muestra la barra después de las primeras 2 diapositivas (200vh)
+
+            document.addEventListener('scroll', () => {
+                const scrollY = window.scrollY;
+
+                if (scrollY > visibilityThreshold) {
+                    stickyNav.classList.remove('opacity-0', 'pointer-events-none');
+                    stickyNav.classList.add('opacity-100');
+                } else {
+                    stickyNav.classList.remove('opacity-100');
+                    stickyNav.classList.add('opacity-0', 'pointer-events-none');
+                }
+            });
+
+            // Asignar eventos de click a los botones de la barra de navegación
+            document.getElementById('nav-propuesta').addEventListener('click', () => smoothScrollTo('slide-4'));
+            document.getElementById('nav-aportes').addEventListener('click', () => smoothScrollTo('slide-7'));
+            document.getElementById('nav-modelo').addEventListener('click', () => smoothScrollTo('slide-10'));
+        });
+    </script>
+
+    <!-- 1. Título de la Presentación --><section id="slide-1" class="slide">
+        <div class="slide-content title-slide flex flex-col justify-center items-center p-8 md:p-16">
+            <h1 class="text-5xl md:text-6xl font-extrabold text-gajog-bg-dark mb-4">PROPUESTA DE ALIANZA</h1>
+            <h2 class="text-3xl md:text-4xl font-light text-gray-700 mb-8">Growth Partner Externo para el Club GAJOG</h2>
+            <div class="mt-12 text-center">
+                <p class="text-lg text-gray-500">Presentado por:</p>
+                <p class="text-2xl font-bold text-gajog-accent">William Pardo</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. El Momento Actual (Estilo Infográfico: Tarjetas de Oportunidad) --><section id="slide-2" class="slide">
+        <div class="slide-content">
+            <h3 class="text-3xl font-bold mb-6 text-gajog-blue">2. El Momento Actual</h3>
+            <p class="text-lg text-gray-700 mb-6 font-medium">El club está en un punto de grandes oportunidades:</p>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 text-center">
+                <div class="bg-gajog-bg-light p-4 rounded-xl shadow-md border-t-4 border-gajog-blue">
+                    <svg class="w-8 h-8 text-gajog-blue mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                    <p class="text-sm font-semibold text-gajog-accent">Escalar a nuevas sedes.</p>
+                </div>
+                <div class="bg-gajog-bg-light p-4 rounded-xl shadow-md border-t-4 border-gajog-orange">
+                    <svg class="w-8 h-8 text-gajog-orange mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-3m-5 3v-3m5 3l-5-5M9 14v6m6-6v6m-6-6v-3m6 3v-3"></path></svg>
+                    <p class="text-sm font-semibold text-gajog-accent">Expandir servicios y comunidad.</p>
+                </div>
+                <div class="bg-gajog-bg-light p-4 rounded-xl shadow-md border-t-4 border-gajog-blue">
+                    <svg class="w-8 h-8 text-gajog-blue mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.24A4.01 4.01 0 0115.356 4h-6.23a4.002 4.002 0 00-.712 7.82l.712.712L15.356 20"></path></svg>
+                    <p class="text-sm font-semibold text-gajog-accent">Fortalecer procesos internos.</p>
+                </div>
+                <div class="bg-gajog-bg-light p-4 rounded-xl shadow-md border-t-4 border-gajog-orange">
+                    <svg class="w-8 h-8 text-gajog-orange mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6-6v6m4-6v6m-4-6h8m-8 0h4m-4 0v-4m4 4v-4m-4-4h8m-8 0v-4m4 4v-4m-4-4h8m-8 0v-4m4 4v-4"></path></svg>
+                    <p class="text-sm font-semibold text-gajog-accent">Blindarse contra copia.</p>
+                </div>
+                <div class="bg-gajog-bg-light p-4 rounded-xl shadow-md border-t-4 border-gajog-blue col-span-2 md:col-span-1">
+                    <svg class="w-8 h-8 text-gajog-blue mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M12 5l7 7-7 7"></path></svg>
+                    <p class="text-sm font-semibold text-gajog-accent">Aprovechar IA y Digital.</p>
+                </div>
+            </div>
+            <p class="text-lg font-semibold mt-8 text-gray-600 border-l-4 border-gajog-orange pl-3">Y necesita un acompañamiento técnico y estratégico para hacerlo de manera organizada y sostenible.</p>
+        </div>
+    </section>
+
+    <!-- 3. Mi Rol Actual --><section id="slide-3" class="slide">
+        <div class="slide-content">
+            <h3 class="text-3xl font-bold mb-6 text-gajog-blue">3. Mi Rol Actual</h3>
+            <ul class="key-list text-xl text-gray-800 space-y-4">
+                <li class="key-list-item">
+                    <svg class="key-list-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                    <span>Desarrollo de la app del club.</span>
+                </li>
+                <li class="key-list-item">
+                    <svg class="key-list-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c1.657 0 3 .895 3 2s-1.343 2-3 2v5m0-7h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span>Operación y soporte mensual.</span>
+                </li>
+                <li class="key-list-item">
+                    <svg class="key-list-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                    <span>Aporte voluntario de soluciones sin exigir participación.</span>
+                </li>
+                <li class="key-list-item">
+                    <svg class="key-list-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v1a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h10a2 2 0 012 2v2M9 7h6m-3 0v4m0 0v4m0-4h4m-4 0H9"></path></svg>
+                    <span>Implementación tecnológica sin costo inicial para GAJOG.</span>
+                </li>
+                <li class="key-list-item">
+                    <svg class="key-list-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-.895 3-2s-1.343-2-3-2v0c-1.657 0-3 .895-3 2s1.343 2 3 2z"></path></svg>
+                    <span>Contribución activa a la estructura digital actual.</span>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 4. Mi Propuesta --><section id="slide-4" class="slide">
+        <div class="slide-content">
+            <h3 class="text-3xl font-bold mb-6 text-gajog-orange">4. Mi Propuesta: Growth Partner Externo</h3>
+            <p class="text-lg text-gray-700 mb-6 font-medium">Convertirme en Growth Partner externo del club, aportando:</p>
+            <ul class="proposal-list text-xl text-gray-800 space-y-4">
+                <li class="key-list-item">
+                    <svg class="key-list-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-6.75-3Z"></path></svg>
+                    <span>Diseño estratégico y modelo escalable.</span>
+                </li>
+                <li class="key-list-item">
+                    <svg class="key-list-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                    <span>Desarrollo de soluciones digitales y blindaje del sistema.</span>
+                </li>
+                <li class="key-list-item">
+                    <svg class="key-list-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v2a2 2 0 01-2 2m0-6V5a2 2 0 00-2-2H7a2 2 0 00-2 2v6m14 0v6a2 2 0 01-2 2h-2m-4-2h4m-4 0v-4m-4-4h.01M9 16h.01"></path></svg>
+                    <span>Integración de IA aplicada al club.</span>
+                </li>
+                <li class="key-list-item">
+                    <svg class="key-list-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span>Innovación en servicios para padres, atletas y sede.</span>
+                </li>
+            </ul>
+            <div class="mt-8 p-4 bg-gajog-bg-light rounded-xl text-gray-700 shadow-inner">
+                <span class="font-bold text-gajog-accent">Condiciones Clave:</span> Sin pagos ahora. Sin rol administrativo. Enfocado 100% en el crecimiento.
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Objetivos de la Alianza --><section id="slide-5" class="slide">
+        <div class="slide-content">
+            <h3 class="text-3xl font-bold mb-6 text-gajog-blue">5. Objetivos de la Alianza</h3>
+            <ul class="key-list text-xl text-gray-800 space-y-4">
+                <li class="key-list-item">
+                    <svg class="key-list-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                    <span>Escalar el club mediante un modelo replicable y sólido.</span>
+                </li>
+                <li class="key-list-item">
+                    <svg class="key-list-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.25L17.5 9.75L13 14.25L9.5 10.75L3 17.25"></path></svg>
+                    <span>Profesionalizar procesos internos y docentes.</span>
+                </li>
+                <li class="key-list-item">
+                    <svg class="key-list-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-3m-5 3v-3m5 3l-5-5M9 14v6m6-6v6m-6-6v-3m6 3v-3m-4-4h8m-8 0h4m-4 0v-4m4 4v-4m-4-4h8m-8 0v-4m4 4v-4m-4-4h8m-8 0v-4m4 4v-4"></path></svg>
+                    <span>Construir comunidad alrededor de alumnos, padres y aliados.</span>
+                </li>
+                <li class="key-list-item">
+                    <svg class="key-list-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c1.657 0 3 .895 3 2s-1.343 2-3 2v5m0-7h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span>Crear nuevos canales de ingreso y productos digitales.</span>
+                </li>
+                <li class="key-list-item">
+                    <svg class="key-list-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.39 17c-.77 1.333.192 3 1.732 3z"></path></svg>
+                    <span>Mitigar riesgos actuales (fuga de profesores, copia del modelo, saturación operativa).</span>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 6. ¿Qué Problemas Resuelve Esta Alianza? --><section id="slide-6" class="slide">
+        <div class="slide-content">
+            <h3 class="text-3xl font-bold mb-6 text-gajog-orange">6. ¿Qué Problemas Resuelve Esta Alianza?</h3>
+            <ul class="proposal-list text-xl text-gray-800 space-y-4">
+                <li class="key-list-item">
+                    <svg class="key-list-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 11c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3z"></path></svg>
+                    <span>Dependencia excesiva de profesores clave.</span>
+                </li>
+                <li class="key-list-item">
+                    <svg class="key-list-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.39 17c-.77 1.333.192 3 1.732 3z"></path></svg>
+                    <span>Alto riesgo de que el modelo sea copiado por otras academias.</span>
+                </li>
+                <li class="key-list-item">
+                    <svg class="key-list-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                    <span>Falta de procesos estandarizados para expansión.</span>
+                </li>
+                <li class="key-list-item">
+                    <svg class="key-list-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span>Carga operativa alta para Alex y Luisa.</span>
+                </li>
+                <li class="key-list-item">
+                    <svg class="key-list-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5s3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18s-3.332.477-4.5 1.253"></path></svg>
+                    <span>Ausencia de “ecosistema” alrededor del club.</span>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 7. Aportes Concretos que Yo Brindaré (Infográfico: 4 pilares) --><section id="slide-7" class="slide">
+        <div class="slide-content">
+            <h3 class="text-3xl font-bold mb-8 text-gajog-blue">7. Aportes Concretos (4 Pilares)</h3>
+            <div class="grid md:grid-cols-2 gap-6 text-gray-800">
+                <div class="bg-gajog-bg-light p-6 rounded-xl border-t-8 border-gajog-blue shadow-lg">
+                    <div class="flex items-center mb-3">
+                        <svg class="w-8 h-8 text-gajog-blue mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                        <h4 class="text-xl font-bold text-gajog-blue">7.1. Digital y Tecnológica</h4>
+                    </div>
+                    <p class="text-md">Mejora de la app, sistema de reportes, métricas, comunicación e integración de IA para automatizar procesos.</p>
+                </div>
+                <div class="bg-gajog-bg-light p-6 rounded-xl border-t-8 border-gajog-orange shadow-lg">
+                    <div class="flex items-center mb-3">
+                        <svg class="w-8 h-8 text-gajog-orange mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-6.75-3Z"></path></svg>
+                        <h4 class="text-xl font-bold text-gajog-orange">7.2. Estratégica</h4>
+                    </div>
+                    <p class="text-md">Roadmap a 18–36 meses, modelo replicable de sedes, blindaje contra copia y optimización de experiencia.</p>
+                </div>
+                <div class="bg-gajog-bg-light p-6 rounded-xl border-t-8 border-gajog-blue shadow-lg">
+                    <div class="flex items-center mb-3">
+                        <svg class="w-8 h-8 text-gajog-blue mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-3m-5 3v-3m5 3l-5-5M9 14v6m6-6v6m-6-6v-3m6 3v-3"></path></svg>
+                        <h4 class="text-xl font-bold text-gajog-blue">7.3. Comunidad</h4>
+                    </div>
+                    <p class="text-md">Contenido de valor, integración de servicios aliados (fisioterapeutas, nutrición) y creación de ecosistema.</p>
+                </div>
+                <div class="bg-gajog-bg-light p-6 rounded-xl border-t-8 border-gajog-orange shadow-lg">
+                    <div class="flex items-center mb-3">
+                        <svg class="w-8 h-8 text-gajog-orange mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                        <h4 class="text-xl font-bold text-gajog-orange">7.4. Escalabilidad</h4>
+                    </div>
+                    <p class="text-md">Preparación de la base tecnológica y operativa para duplicar el éxito y abrir nuevas sedes con solidez.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. ¿Qué Obtiene GAJOG a Cambio? --><section id="slide-8" class="slide">
+        <div class="slide-content">
+            <h3 class="text-3xl font-bold mb-6 text-gajog-blue">8. ¿Qué Obtiene GAJOG a Cambio?</h3>
+            <ul class="key-list text-xl text-gray-800 space-y-4">
+                <li class="key-list-item">
+                    <svg class="key-list-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                    <span>Innovación constante sin equipo costoso (consultor especializado).</span>
+                </li>
+                <li class="key-list-item">
+                    <svg class="key-list-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                    <span>Aceleración del camino para abrir nuevas sedes (crecimiento y estructura).</span>
+                </li>
+                <li class="key-list-item">
+                    <svg class="key-list-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 10V8a2 2 0 00-2-2H4a2 2 0 00-2 2v10a2 2 0 002 2h14a2 2 0 002-2v-2M8 12h8m-4 4h4"></path></svg>
+                    <span>Blindaje competitivo único en la liga y la ciudad.</span>
+                </li>
+                <li class="key-list-item">
+                    <svg class="key-list-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                    <span>Comunidad más fuerte y nuevas fuentes de ingresos.</span>
+                </li>
+            </ul>
+            <p class="text-xl font-bold mt-6 text-gajog-orange border-l-4 border-gajog-accent pl-3">Todo sin pagos adicionales inmediatos.</p>
+        </div>
+    </section>
+
+    <!-- 9. ¿Qué Solicito a Cambio? --><section id="slide-9" class="slide">
+        <div class="slide-content">
+            <h3 class="text-3xl font-bold mb-6 text-gajog-orange">9. ¿Qué Solicito a Cambio?</h3>
+            <div class="grid grid-cols-3 gap-4 mb-8 text-center text-gajog-accent font-extrabold">
+                <div class="p-3 bg-gajog-bg-light rounded-lg border-b-4 border-gajog-blue">Sin Pagos Ahora</div>
+                <div class="p-3 bg-gajog-bg-light rounded-lg border-b-4 border-gajog-blue">Sin Rol en la Junta</div>
+                <div class="p-3 bg-gajog-bg-light rounded-lg border-b-4 border-gajog-blue">Sin Decisiones Admin.</div>
+            </div>
+            <div class="mt-4 p-6 bg-gajog-blue/10 rounded-xl border-l-8 border-gajog-blue">
+                <p class="text-2xl font-extrabold text-gajog-blue">Solo participación en los resultados futuros del crecimiento:</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 10. Modelo de Ganancia Mutua (Infográfico: Opciones claras) --><section id="slide-10" class="slide">
+        <div class="slide-content">
+            <h3 class="text-3xl font-bold mb-6 text-gajog-blue">10. Modelo de Ganancia Mutua</h3>
+            <p class="text-lg text-gray-700 mb-8 font-semibold text-center">(Escoger 1 o combinar)</p>
+            <div class="grid md:grid-cols-2 gap-6 text-gray-800">
+                <div class="bg-gajog-bg-light p-5 rounded-xl border-4 border-gajog-blue shadow-lg">
+                    <h4 class="text-xl font-extrabold text-gajog-blue mb-2">Opción A: Sedes Nuevas</h4>
+                    <p>Porcentaje mensual de ingresos de cada sede nueva.</p>
+                    <p class="font-bold text-2xl text-gajog-accent mt-2">3% a 7% (36 meses)</p>
+                </div>
+                <div class="bg-gajog-bg-light p-5 rounded-xl border-4 border-gajog-orange shadow-lg">
+                    <h4 class="text-xl font-extrabold text-gajog-orange mb-2">Opción B: Servicios Digitales</h4>
+                    <p>Participación en Comunidades premium, cursos digitales, etc.</p>
+                    <p class="font-bold text-2xl text-gajog-accent mt-2">30% Growth Partner</p>
+                </div>
+                <div class="bg-gajog-bg-light p-5 rounded-xl border-4 border-gajog-blue shadow-lg">
+                    <h4 class="text-xl font-extrabold text-gajog-blue mb-2">Opción C: Licenciamiento Externo</h4>
+                    <p>Participación por cada licencia vendida del Sistema Digital a otros clubes.</p>
+                    <p class="font-bold text-2xl text-gajog-accent mt-2">10% a 20%</p>
+                </div>
+                <div class="bg-gajog-bg-light p-5 rounded-xl border-4 border-gajog-orange shadow-lg">
+                    <h4 class="text-xl font-extrabold text-gajog-orange mb-2">Opción D: Modelo Combinado</h4>
+                    <p>Fórmula balanceada para crecimiento estable.</p>
+                    <p class="font-bold text-lg text-gajog-accent mt-2">3% Sedes + 20% Digital + 10% Licencias</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 11. Por Qué Este Modelo Es Seguro para GAJOG --><section id="slide-11" class="slide">
+        <div class="slide-content">
+            <h3 class="text-3xl font-bold mb-6 text-gajog-orange">11. Por Qué Es Seguro para GAJOG</h3>
+            <ul class="key-list text-xl text-gray-800 space-y-4">
+                <li class="key-list-item">
+                    <svg class="key-list-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.24A4.01 4.01 0 0115.356 4h-6.23a4.002 4.002 0 00-.712 7.82l.712.712L15.356 20"></path></svg>
+                    <span>No genera gasto hoy; solo pago si hay crecimiento real.</span>
+                </li>
+                <li class="key-list-item">
+                    <svg class="key-list-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span>Todo está basado en resultados demostrables.</span>
+                </li>
+                <li class="key-list-item">
+                    <svg class="key-list-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 11c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3z"></path></svg>
+                    <span>La propiedad del club y las decisiones se mantienen intactas.</span>
+                </li>
+                <li class="key-list-item">
+                    <svg class="key-list-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-.895 3-2s-1.343-2-3-2v0c-1.657 0-3 .895-3 2s1.343 2 3 2z"></path></svg>
+                    <span>El club obtiene tecnología y estrategia sin arriesgar capital.</span>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 12. Por Qué Yo Soy el Perfil Adecuado --><section id="slide-12" class="slide">
+        <div class="slide-content">
+            <h3 class="text-3xl font-bold mb-6 text-gajog-blue">12. Por Qué Soy el Perfil Adecuado</h3>
+            <div class="space-y-4 text-gray-800">
+                <p class="text-xl font-semibold border-l-4 border-gajog-accent pl-3">Ya aporté tecnología al club antes sin pedir nada. Conozco la cultura y los procesos.</p>
+
+                <p class="text-xl font-semibold text-gajog-orange pt-4">Tengo habilidades fuertes en:</p>
+                <div class="grid grid-cols-2 gap-4 text-center mt-4">
+                    <div class="p-3 bg-gajog-bg-light rounded-xl shadow-md"><span class="font-bold">Desarrollo de Software</span></div>
+                    <div class="p-3 bg-gajog-bg-light rounded-xl shadow-md"><span class="font-bold">Diseño de Sistemas y Estrategia</span></div>
+                    <div class="p-3 bg-gajog-bg-light rounded-xl shadow-md"><span class="font-bold">Inteligencia Artificial Aplicada</span></div>
+                    <div class="p-3 bg-gajog-bg-light rounded-xl shadow-md"><span class="font-bold">Gestión de Comunidades</span></div>
+                </div>
+
+                <p class="text-xl font-semibold pt-4 border-l-4 border-gajog-accent pl-3">Mis incentivos están completamente alineados con los de GAJOG.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 13. Visión a 24–36 Meses --><section id="slide-13" class="slide">
+        <div class="slide-content">
+            <h3 class="text-3xl font-bold mb-6 text-gajog-orange">13. Visión a 24–36 Meses</h3>
+            <div class="flex flex-wrap gap-4">
+                <div class="w-full md:w-[48%] bg-gajog-blue/10 p-4 rounded-xl shadow-inner">
+                    <p class="font-bold text-gajog-blue">Crecimiento:</p>
+                    <p>GAJOG con 2 a 3 sedes nuevas. Modelo preparado para licenciarse a nivel nacional.</p>
+                </div>
+                <div class="w-full md:w-[48%] bg-gajog-orange/10 p-4 rounded-xl shadow-inner">
+                    <p class="font-bold text-gajog-orange">Tecnología:</p>
+                    <p>Un sistema digital robusto e integrado. Metodología blindada y difícil de copiar.</p>
+                </div>
+                <div class="w-full bg-gajog-bg-light p-4 rounded-xl shadow-md">
+                    <p class="font-bold text-gajog-accent">Impacto:</p>
+                    <p>Comunidad activa de padres y deportistas. Nuevos ingresos digitales que fortalecen finanzas. Profesores formados bajo una estructura única del club.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 14. Llamado a la Acción --><section id="slide-14" class="slide">
+        <div class="slide-content">
+            <h3 class="text-3xl font-bold mb-6 text-gajog-blue">14. Llamado a la Acción</h3>
+            <p class="text-2xl font-bold text-gray-800 mb-6">Propuesta de siguiente paso:</p>
+            <ol class="list-decimal list-inside text-xl text-gray-800 space-y-4 font-semibold ml-4">
+                <li class="p-2 bg-gajog-bg-light rounded-lg border-l-4 border-gajog-blue">Aprobación verbal del partnership.</li>
+                <li class="p-2 bg-gajog-bg-light rounded-lg border-l-4 border-gajog-orange">Definir el modelo de participación (A, B, C o combinado).</li>
+                <li class="p-2 bg-gajog-bg-light rounded-lg border-l-4 border-gajog-blue">Elaborar el acuerdo formal.</li>
+                <li class="p-2 bg-gajog-bg-light rounded-lg border-l-4 border-gajog-orange">Inicio del roadmap de crecimiento.</li>
+            </ol>
+            <p class="text-3xl font-extrabold mt-10 text-gajog-orange text-center">¡Estoy listo para comenzar inmediatamente!</p>
+        </div>
+    </section>
+
+    <!-- 15. Cierre --><section id="slide-15" class="slide">
+        <div class="slide-content text-center flex flex-col justify-center items-center p-8 md:p-16">
+            <h3 class="text-5xl font-extrabold text-gajog-bg-dark mb-6">GRACIAS</h3>
+            <p class="text-xl text-gray-700 max-w-lg mb-8">Creo firmemente que GAJOG está en un momento clave para pasar del éxito actual a un modelo profesional, escalable y blindado.</p>
+            <p class="text-3xl font-bold text-gajog-blue border-b-4 border-gajog-orange pb-1">Mi objetivo es acompañarlos para lograrlo juntos.</p>
+            <div class="mt-12 text-sm text-gray-400">
+                Growth Partner Externo para el Club GAJOG
+            </div>
+        </div>
+    </section>
+    
+    <!-- Sticky Navigation Bar (Se activa con Scroll) --><div id="sticky-tabs" class="fixed bottom-0 left-0 right-0 z-50 p-3 bg-gajog-bg-dark/95 backdrop-blur-sm shadow-2xl transition-opacity duration-500 opacity-0 pointer-events-none flex flex-wrap justify-center space-x-2 md:space-x-6">
+        
+        <button id="nav-propuesta" class="text-white font-semibold py-2 px-4 rounded-xl transition-all duration-300 hover:bg-gajog-blue/80 bg-gajog-blue shadow-md text-sm md:text-base mb-2 md:mb-0">
+            <span class="hidden sm:inline">4.</span> Mi Propuesta
+        </button>
+
+        <button id="nav-aportes" class="text-white font-semibold py-2 px-4 rounded-xl transition-all duration-300 hover:bg-gajog-orange/80 bg-gajog-orange shadow-md text-sm md:text-base mb-2 md:mb-0">
+            <span class="hidden sm:inline">7.</span> Aportes Concretos
+        </button>
+
+        <button id="nav-modelo" class="text-white font-semibold py-2 px-4 rounded-xl transition-all duration-300 hover:bg-gajog-blue/80 bg-gajog-blue shadow-md text-sm md:text-base mb-2 md:mb-0">
+            <span class="hidden sm:inline">10.</span> Modelo Ganancia
+        </button>
+    </div>
+
+</body>
+</html>
